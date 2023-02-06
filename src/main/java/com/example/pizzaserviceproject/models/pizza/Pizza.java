@@ -2,6 +2,7 @@ package com.example.pizzaserviceproject.models.pizza;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.UUID;
 
@@ -10,11 +11,9 @@ import java.util.UUID;
 public class Pizza {
     @Id //primary key
     private final String id;
+    @NotBlank
     private String name;
     private String size;
-    private int cheese;
-    private int pepperoni;
-    private int ham;
     private String description;
 
 
@@ -22,31 +21,23 @@ public class Pizza {
         this(
                 "",
                 "",
-                0,
-                0,
-                0,
+                "",
                 ""
                 );
     }
 
-    public Pizza(String name, String size, int cheese, int pepperoni, int ham, String description) {
+    public Pizza(String name, String size, String description) {
         this(
                 UUID.randomUUID().toString(),
                 name,
                 size,
-                cheese,
-                pepperoni,
-                ham,
                 description);
     }
 
-    public Pizza(String id, String name, String size, int cheese, int pepperoni, int ham, String description) {
+    public Pizza(String id, String name, String size, String description) {
         this.id = id;
         this.name = name;
         this.size = size;
-        this.cheese = cheese;
-        this.pepperoni = pepperoni;
-        this.ham = ham;
         this.description = description;
     }
 
@@ -70,35 +61,21 @@ public class Pizza {
         this.size = size;
     }
 
-    public int getCheese() {
-        return cheese;
-    }
-
-    public void setCheese(int cheese) {
-        this.cheese = cheese;
-    }
-
-    public int getPepperoni() {
-        return pepperoni;
-    }
-
-    public void setPepperoni(int pepperoni) {
-        this.pepperoni = pepperoni;
-    }
-
-    public int getHam() {
-        return ham;
-    }
-
-    public void setHam(int ham) {
-        this.ham = ham;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Pizza{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", size='" + size + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

@@ -1,0 +1,52 @@
+<nav th:fragment="common-nav" id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+<!--    <nav class="navbar bg-body-tertiary">-->
+<!--        <div class="container-fluid">-->
+<!--            <a class="navbar-brand" href="#">-->
+<!--                <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">-->
+<!--                Bootstrap-->
+<!--            </a>-->
+<!--        </div>-->
+<!--    </nav>-->
+    <div class="position-sticky pt-3 sidebar-sticky">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">
+                    <span data-feather="home" class="align-text-bottom"></span>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/cafe">
+                    <span data-feather="file" class="align-text-bottom"></span>
+                    Cafe
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/pizzas">
+                    <span data-feather="shopping-cart" class="align-text-bottom"></span>
+                    Pizzas
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/menu">
+                    <span data-feather="users" class="align-text-bottom"></span>
+                    Menu
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/sales">
+                    <span data-feather="bar-chart-2" class="align-text-bottom"></span>
+                    Sales
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/warehouse">
+                    <span data-feather="layers" class="align-text-bottom"></span>
+                    Warehouse
+                </a>
+            </li>
+        </ul>
+
+
+    </div>
+</nav>

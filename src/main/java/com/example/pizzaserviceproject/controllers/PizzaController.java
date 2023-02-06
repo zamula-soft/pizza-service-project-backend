@@ -3,17 +3,22 @@ package com.example.pizzaserviceproject.controllers;
 
 import com.example.pizzaserviceproject.models.pizza.Pizza;
 import com.example.pizzaserviceproject.models.pizza.PizzaRepository;
+import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+@Controller
 @RequestMapping("/pizzas")
 public class PizzaController {
     private static final Logger log = LoggerFactory.getLogger(PizzaController.class);
@@ -25,55 +30,43 @@ public class PizzaController {
     }
 
     @GetMapping
-    public Iterable<Pizza> getPizzas() {
-        return pizzaRepository.findAll();
+    public String getAllPizzas(Model model) { //model lets bind instance into template
+        Iterable<Pizza> all = pizzaRepository.findAll();
+        log.info(all.toString());
+        model.addAttribute("pizzas", all);
+        log.info(all.toString());
+        return "pizza/list-of-pizzas";
     }
 
-    @GetMapping("/{id}")
-    public Optional<Pizza> getPizzaById(
-            @PathVariable(name = "id") String id) {
-        return pizzaRepository.findById(id);
+    //    Search
+    @GetMapping("/search")
+    public String searchPizzas(@PathParam("name") String name, Model model) {
+        List<Pizza> pizzaByName = pizzaRepository.findByNameContaining(name);
+        model.addAttribute("pizzas", pizzaByName);
+        log.info(pizzaByName.toString());
+        return "pizza/list-of-pizzas";
+
     }
 
-
-    @DeleteMapping("/{id}")
-    public void deletePizzaById(
-            @PathVariable(name = "id") String id) {
-        pizzaRepository.deleteById(id);
+    //    Add
+    @GetMapping("/add")
+    public String addPizza(Pizza pizza) {
+        return "pizza/add-pizza";
     }
+
 
     @PostMapping
-    public Pizza postPizza(@RequestBody Pizza pizza) {
-        if (pizza != null
-                && pizza.getId() != null
-                && !pizza.getId().isEmpty()
-                && pizza.getName() != null
-                && !pizza.getName().isEmpty())
-            pizzaRepository.save(pizza);
-        return pizza;
-
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Pizza> putPizza(
-            @PathVariable(name = "id") String id,
-            @RequestBody Pizza pizza) {
-        log.info("PUT " + pizza.getId() + " | " + pizza.getName());
-        if (pizzaRepository.existsById(id)) {
-            pizzaRepository.save(pizza);
-            return new ResponseEntity<>(pizza, HttpStatus.OK);
-        } else {
-            pizzaRepository.save(pizza);
-            return new ResponseEntity<>(pizza, HttpStatus.CREATED);
+    public String addNewPizza(
+            @Valid Pizza pizza,
+            BindingResult result,
+            Model model){
+        if (result.hasErrors())
+        {
+            return "pizza/add-pizza";
         }
+        pizzaRepository.save(pizza);
+        return "redirect:/pizzas";
     }
-
-    @PatchMapping("/{name}")
-    public List<Pizza> getPizzaByName( //optional- > list
-                                       @PathVariable(name = "name") String name) {
-        return pizzaRepository.findByNameContaining(name);
-    }
-
 
 }
 
