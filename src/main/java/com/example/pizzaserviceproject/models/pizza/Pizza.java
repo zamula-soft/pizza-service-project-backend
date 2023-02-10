@@ -10,11 +10,12 @@ import java.util.UUID;
 @Table(name="pizza")
 public class Pizza {
     @Id //primary key
-    private final String id;
+    private String id;
     @NotBlank
     private String name;
     private String size;
     private String description;
+    private Boolean spicy;
 
 
     public Pizza() {
@@ -22,7 +23,8 @@ public class Pizza {
                 "",
                 "",
                 "",
-                ""
+                "",
+                false
                 );
     }
 
@@ -31,14 +33,23 @@ public class Pizza {
                 UUID.randomUUID().toString(),
                 name,
                 size,
-                description);
+                description, false);
     }
 
-    public Pizza(String id, String name, String size, String description) {
+    public Pizza(String name, String size, String description, Boolean spicy) {
+        this(
+                UUID.randomUUID().toString(),
+                name,
+                size,
+                description, spicy);
+    }
+
+    public Pizza(String id, String name, String size, String description, Boolean spicy) {
         this.id = id;
         this.name = name;
         this.size = size;
         this.description = description;
+        this.spicy = spicy;
     }
 
     public String getId() {
@@ -69,6 +80,14 @@ public class Pizza {
         this.description = description;
     }
 
+    public Boolean getSpicy() {
+        return spicy;
+    }
+
+    public void setSpicy(Boolean spicy) {
+        this.spicy = spicy;
+    }
+
     @Override
     public String toString() {
         return "Pizza{" +
@@ -77,5 +96,9 @@ public class Pizza {
                 ", size='" + size + '\'' +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

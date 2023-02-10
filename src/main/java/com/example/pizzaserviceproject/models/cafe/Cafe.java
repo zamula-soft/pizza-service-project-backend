@@ -10,7 +10,7 @@ import java.util.UUID;
 @Table(name="cafe")
 public class Cafe {
     @Id //primary key
-    private final String id;
+    private String id;
     private String name;
     private String city;
     private String email;
@@ -57,6 +57,10 @@ public class Cafe {
 
     public String getCity() {
         return city;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setCity(String city) {

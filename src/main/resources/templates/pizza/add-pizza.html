@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/head :: common-head"/>
+
+<body>
+
+<head th:replace="common/header :: common-header"/>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <nav th:replace="common/nav :: common-nav"/>
+
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h2 class="h2">Pizza details</h2>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group me-2">
+                        <form class="d-flex" role="search" action="/pizza/search" method="get">
+                            <input id="name" name="name" class="form-control me-2" type="search" placeholder="Search pizza" aria-label="Search pizza">
+                            <button class="btn btn-sm btn-outline-secondary" type="submit">Search</button>
+                        </form>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href='/pizza';">Back</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="table-responsive">
+                <form action="#" th:action="@{/pizza}" th:object="${pizza}" method="post">
+                    <label for="name">Enter details of new pizza</label>
+                    <br/>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon2">Pizza's name:</span>
+                        <input type="text" th:field="*{name}" id="name" placeholder="Enter the name of pizza" class="form-control" aria-label="Enter the name of pizza" aria-describedby="basic-addon2">
+
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-group-text">Description:</span>
+                        <textarea th:field="*{description}" id="description"  class="form-control" aria-label="Description"></textarea>
+                    </div>
+
+                    <br/>
+                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <input class="btn-sm btn-outline-secondary" type="submit" value="Submit pizza">
+                        </div>
+                    </div>
+                    <br/>
+
+                </form>
+            </div>
+
+
+
+        </main>
+        <hr/>
+
+
+
+
+    </div>
+</div>
+</div>
+
+<!-- This would be the footer -->
+<script src="/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script><script src="dashboard.js"></script>
+</body>
+
+
+

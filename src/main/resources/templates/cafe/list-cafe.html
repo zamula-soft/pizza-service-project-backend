@@ -18,38 +18,46 @@
                 <h2 class="h2">Pizza list</h2>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <div class="btn-group me-2">
-                        <form class="d-flex" role="search" action="/pizzas/search" method="get">
+                        <form class="d-flex" role="search" action="/cafe/search" method="get">
                             <input id="name" name="name" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                             <button class="btn btn-sm btn-outline-secondary" type="submit">Search</button>
                         </form>
-                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href='/pizzas/add';">Add pizza</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href='/cafe/add';">Add cafe</button>
                     </div>
                 </div>
             </div>
 
 
 
-            <div class="table-responsive" th:switch="${pizzas}">
-            <h3 th:case="null">No pizzas yet!</h3>
+            <div class="table-responsive" th:switch="${cafes}">
+            <h3 th:case="null">No cafe yet!</h3>
                 <div th:case="*">
                     <table class="table table-hover table-striped table-sm">
                         <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Description</th>
+                            <th scope="col">City</th>
+                            <th scope="col">E-mail</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Open at</th>
+                            <th scope="col">Close at</th>
                             <th scope="col">Edit</th>
                             <th scope="col">Delete</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="pizza : ${pizzas}">
+                        <tr th:each="cafe : ${cafes}">
                             <td></td>
 <!--                            <td th:text="${pizza.id}"></td>-->
-                            <td th:text="${pizza.name}"></td>
-                            <td th:text="${pizza.description}"></td>
-                            <td><a class="nav-link" th:href="@{/pizzas/edit/{id}(id=${pizza.id})}">Edit</a></td>
-                            <td><a class="nav-link" th:href="@{/pizzas/delete/{id}(id=${pizza.id})}">Delete</a></td>
+                            <td th:text="${cafe.name}"></td>
+                            <td th:text="${cafe.city}"></td>
+                            <td th:text="${cafe.email}"></td>
+                            <td th:text="${cafe.phone}"></td>
+                            <td th:text="${cafe.open_at}"></td>
+                            <td th:text="${cafe.close_at}"></td>
+                            <td><a class="nav-link" th:href="@{/cafe/edit/{id}(id=${cafe.id})}">Edit</a></td>
+                            <td><a class="nav-link" th:href="@{/cafe/delete/{id}(id=${cafe.id})}">Delete</a></td>
                         </tr>
                         </tbody>
                     </table>

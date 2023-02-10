@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface PizzaRepository extends CrudRepository<Pizza, String> {
     List<Pizza> findByNameContaining(String name);
+    List<Pizza> findByDescriptionContaining(String description);
 }
