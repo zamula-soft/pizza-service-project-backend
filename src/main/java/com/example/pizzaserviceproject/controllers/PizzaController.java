@@ -1,29 +1,22 @@
 package com.example.pizzaserviceproject.controllers;
 
-
 import com.example.pizzaserviceproject.models.pizza.Pizza;
 import com.example.pizzaserviceproject.models.pizza.PizzaRepository;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/pizza")
-@Api(value = "Pizza API", protocols = "http")
 public class PizzaController {
     private static final Logger log = LoggerFactory.getLogger(PizzaController.class);
 
@@ -33,7 +26,6 @@ public class PizzaController {
     public PizzaController() {
     }
 
-    @ApiOperation(value = "Get list of all pizzas in database", response = Model.class, code = 200)
     @GetMapping
     public String getAllPizzas(Model model) { //model lets bind instance into template
         Iterable<Pizza> all = pizzaRepository.findAll();

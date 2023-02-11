@@ -3,26 +3,54 @@ package com.example.pizzaserviceproject.controllers;
 
 import com.example.pizzaserviceproject.models.cafe.Cafe;
 import com.example.pizzaserviceproject.models.cafe.CafeRepository;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+//@RequestMapping('/cafe')
+//abstract class CafeBaseController {
+//    @RequestMapping
+//    abstract listAll()
+//}
+//
+//@Controller
+//class CafeHtmlController extends CafeBaseController {
+//    @Override ModelAndView listAll() {
+//        new ModelAndView('cafe/list-cafe', [foobars: foobarsList])
+//    }
+//}
+
+
+//
+//@RestController
+//@RequestMapping('/cafe', produces = MediaType.APPLICATION_JSON_VALUE)
+//class CafeJsonController extends CafeBaseController {
+//    @Override
+//    Iterable<Cafe> all = cafeRepository.findAll();
+//    {
+//        return cafeReposi
+//    }
+//}
+
+
+
+
+
+
+
+
+
+
+
+@RestController
 @RequestMapping("/cafe")
-@Api(value = "Pizza API", protocols = "http")
 public class CafeController {
     private static final Logger log = LoggerFactory.getLogger(CafeController.class);
 
@@ -32,14 +60,14 @@ public class CafeController {
     public CafeController() {
     }
 
-    @ApiOperation(value = "Get list of all cafes in database", response = Model.class, code = 200)
     @GetMapping
     public String getAllCafes(Model model) { //model lets bind instance into template
         Iterable<Cafe> all = cafeRepository.findAll();
         log.info(all.toString());
         model.addAttribute("cafes", all);
         log.info(all.toString());
-        return "cafe/list-cafe";
+        return all.toString();
+//        return "cafe/list-cafe";
     }
 
     //    Search

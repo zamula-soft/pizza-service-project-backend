@@ -48,12 +48,13 @@ public class InitDatabaseController implements CommandLineRunner {
         );
 
         log.info("Loading initial cafes........");
+
         cafeRepository.saveAll(
                 Set.of(
-                        new Cafe("Vienna Pizza Shop", "Vienna", "pizza-stop@pizza.com", "+48 50 500 500 50", new Time(8, 30, 00), new Time(22,00, 00)),
-                        new Cafe("Samurai Pizza Club", "Tokyo", "samurai-pizza@pizza.com", "+11 12 222 222 22", new Time(06, 00, 00), new Time(21,15, 00)),
-                        new Cafe("Cowboy Time", "Los Angeles", "cowboy-time@pizza.com", "+11 10 000 000 00", new Time(10, 00, 00), new Time(23,00, 00)),
-                        new Cafe("Just Pizza", "Chicago", "just-pizza@pizza.com", "+11 11 010 010 01", new Time(10, 00, 00), new Time(23,00, 00))
+                        new Cafe(1, "Vienna Pizza Shop", "Vienna", "pizza-stop@pizza.com", "+48 50 500 500 50", new Time(8, 30, 00), new Time(22,00, 00)),
+                        new Cafe(2, "Samurai Pizza Club", "Tokyo", "samurai-pizza@pizza.com", "+11 12 222 222 22", new Time(06, 00, 00), new Time(21,15, 00)),
+                        new Cafe(3, "Cowboy Time", "Los Angeles", "cowboy-time@pizza.com", "+11 10 000 000 00", new Time(10, 00, 00), new Time(23,00, 00)),
+                        new Cafe(2, "Just Pizza", "Chicago", "just-pizza@pizza.com", "+11 11 010 010 01", new Time(10, 00, 00), new Time(23,00, 00))
                         )
         );
 
@@ -67,25 +68,6 @@ public class InitDatabaseController implements CommandLineRunner {
 //                )
 //        );
 
-        log.info("Loading initial sales........");
-//        pizzaRepository.saveAll(
-//                Set.of(
-//                        new Pizza("Margaritha", "S", ""),
-//                        new Pizza("Peperoni", "S", ""),
-//                        new Pizza("Mexican", "S", ""),
-//                        new Pizza("Four cheese", "S", "")
-//                )
-//        );
-
-        log.info("Loading initial warehouse........");
-//        pizzaRepository.saveAll(
-//                Set.of(
-//                        new Pizza("Margaritha", "S", ""),
-//                        new Pizza("Peperoni", "S", ""),
-//                        new Pizza("Mexican", "S", ""),
-//                        new Pizza("Four cheese", "S", "")
-//                )
-//        );
 
 
     }
