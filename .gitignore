@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/resources/static_old/img/
+/src/main/resources/static_old/css/
+/src/main/resources/static/css1/
+/src/main/resources/static/js1/
+/src/main/resources/static_old/
+/src/main/resources/static/

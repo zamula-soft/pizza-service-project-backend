@@ -17,12 +17,9 @@ public class Cafe {
     private String city;
     private String country;
     private String address;
-    private String photo;
-
     private String email;
     private String site;
     private String facebook;
-    private String instagram;
     private String phone;
     private Boolean delivery;
     private String style;
@@ -32,8 +29,8 @@ public class Cafe {
     private Time close_at;
 
 
-    public Cafe(String id, Integer rating, String name, String city, String country, String address, String photo,
-                String email, String site, String facebook, String instagram, String phone, Boolean delivery,
+    public Cafe(String id, Integer rating, String name, String city, String country, String address,
+                String email, String site, String facebook, String phone, Boolean delivery,
                 String style, String description, Time open_at, Time close_at) {
         this.id = id;
         this.rating = rating;
@@ -41,11 +38,9 @@ public class Cafe {
         this.city = city;
         this.country = country;
         this.address = address;
-        this.photo = photo;
         this.email = email;
         this.site = site;
         this.facebook = facebook;
-        this.instagram = instagram;
         this.phone = phone;
         this.delivery = delivery;
         this.style = style;
@@ -54,8 +49,25 @@ public class Cafe {
         this.close_at = close_at;
     }
 
-    public Cafe(Integer rating, String name, String city, String country, String address, String photo, String email,
-                String site, String facebook, String instagram, String phone, Boolean delivery, String style,
+
+    public Cafe(String id, Integer rating, String name, String country, String city, String email, String site,
+                String facebook,
+                String phone, Time open_at, Time close_at) {
+        this.id = UUID.randomUUID().toString();
+        this.rating = rating;
+        this.name = name;
+        this.country = country;
+        this.city = city;
+        this.email = email;
+        this.site = site;
+        this.facebook = facebook;
+        this.phone = phone;
+        this.open_at = open_at;
+        this.close_at = close_at;
+    }
+
+    public Cafe(Integer rating, String name, String city, String country, String address, String email,
+                String site, String facebook, String phone, Boolean delivery, String style,
                 String description, Time open_at, Time close_at) {
         this(
                 UUID.randomUUID().toString(),
@@ -64,11 +76,9 @@ public class Cafe {
                 city,
                 country,
                 address,
-                photo,
                 email,
                 site,
                 facebook,
-                instagram,
                 phone,
                 delivery,
                 style,
@@ -77,35 +87,12 @@ public class Cafe {
                 close_at);
     }
 
-    public Cafe(String id, Integer rating, String name, String city, String email, String phone, Time open_at, Time close_at) {
-        this.id = id;
-        this.rating = rating;
-        this.name = name;
-        this.city = city;
-        this.email = email;
-        this.phone = phone;
-        this.open_at = open_at;
-        this.close_at = close_at;
-    }
-
-
-    public Cafe() {
-        this(0, "", "", "", "", null, null);
+        public Cafe() {
+        this(0, "","", "",  "","", "", "",
+                "", false, "", "",  null, null);
     }
 
     //    https://www.50toppizza.it/
-    public Cafe(Integer rating, String name, String city, String email, String phone, Time open_at, Time close_at) {
-        this(
-                UUID.randomUUID().toString(),
-                rating,
-                name,
-                city,
-                email,
-                phone,
-                open_at,
-                close_at);
-    }
-
 
     public String getId() {
         return id;
@@ -188,13 +175,6 @@ public class Cafe {
         this.address = address;
     }
 
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
 
     public String getSite() {
         return site;
@@ -212,13 +192,6 @@ public class Cafe {
         this.facebook = facebook;
     }
 
-    public String getInstagram() {
-        return instagram;
-    }
-
-    public void setInstagram(String instagram) {
-        this.instagram = instagram;
-    }
 
     public Boolean getDelivery() {
         return delivery;
