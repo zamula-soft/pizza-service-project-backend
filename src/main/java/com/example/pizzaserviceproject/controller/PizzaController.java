@@ -1,19 +1,16 @@
-package com.example.pizzaserviceproject.controllers;
+package com.example.pizzaserviceproject.controller;
 
-import com.example.pizzaserviceproject.models.cafe.Cafe;
-import com.example.pizzaserviceproject.models.pizza.Pizza;
-import com.example.pizzaserviceproject.models.pizza.PizzaRepository;
-import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
+import com.example.pizzaserviceproject.entity.Cafe;
+import com.example.pizzaserviceproject.entity.Pizza;
+import com.example.pizzaserviceproject.repository.PizzaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -25,24 +22,34 @@ import java.util.List;
 public class PizzaController {
     private static final Logger log = LoggerFactory.getLogger(PizzaController.class);
 
-    @Autowired
-    PizzaRepository pizzaRepository;
+    private PizzaRepository pizzaRepository;
 
-    public PizzaController() {
+    @Autowired
+    public PizzaController(PizzaRepository pizzaRepository) {
+        this.pizzaRepository = pizzaRepository;
     }
 
 
     // add pizza
     @GetMapping
-    public List<Pizza> getAllPizzas() {
-        List<Pizza> all = (List<Pizza>) pizzaRepository.findAll();
+    public List<Pizza> getAll() {
+        List<Pizza> all = new ArrayList<>();
+        pizzaRepository.findAll().forEach(all::add);
         log.info(all.toString());
         return all;
     }
 
+    @GetMapping("/priceBetween")
+    public List<Pizza> priceBetween (
+            @RequestParam (name = "from", defaultValue = "0.0") BigDecimal priceFrom,
+            @RequestParam (name = "to", defaultValue = "100.0") BigDecimal priceTo)
+    {
+        List<Pizza> pizzas = pizzaRepository.getPizzaWithPriceBetween(priceFrom, priceTo);
+        return pizzas;
+    }
 
     @GetMapping("/{id}")
-    public Pizza getPizza(@PathVariable String id) {
+    public Pizza getPizza(@PathVariable Long id) {
         return pizzaRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
@@ -58,14 +65,14 @@ public class PizzaController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity updatePizza(@PathVariable String id, @RequestBody Pizza pizza) {
+    public ResponseEntity updatePizza(@PathVariable Long id, @RequestBody Pizza pizza) {
 
         Pizza current = pizzaRepository.findById(id).get();
         log.info("find: "+pizza);
         current.setName(pizza.getName());
         current.setSize(pizza.getSize());
         current.setDescription(pizza.getDescription());
-        current.setSpicy(pizza.getSpicy());
+        current.setIsSpicy(pizza.getIsSpicy());
         pizzaRepository.save(current);
         return ResponseEntity.ok(current);
 
@@ -73,7 +80,7 @@ public class PizzaController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deletePizza(@PathVariable String id) {
+    public ResponseEntity deletePizza(@PathVariable Long id) {
         pizzaRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }

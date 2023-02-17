@@ -1,20 +1,17 @@
-package com.example.pizzaserviceproject.controllers;
+package com.example.pizzaserviceproject.controller;
 
-
-import com.example.pizzaserviceproject.models.cafe.Cafe;
-import com.example.pizzaserviceproject.models.cafe.CafeRepository;
-import jakarta.validation.Valid;
+import com.example.pizzaserviceproject.entity.Cafe;
+import com.example.pizzaserviceproject.repository.CafeRepository;
 import jakarta.websocket.server.PathParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,15 +21,17 @@ import java.util.List;
 public class CafeController {
     private static final Logger log = LoggerFactory.getLogger(CafeController.class);
 
-    @Autowired
-    CafeRepository cafeRepository;
+    private CafeRepository cafeRepository;
 
-    public CafeController() {
+    @Autowired
+    public CafeController(CafeRepository cafeRepository) {
+        this.cafeRepository = cafeRepository;
     }
 
     @GetMapping
-    public List<Cafe> getAllCafes() {
-        List<Cafe> all = (List<Cafe>) cafeRepository.findAll();
+    public List<Cafe> getAll() {
+        List<Cafe> all = new ArrayList<>();
+        cafeRepository.findAll().forEach(all::add);
         log.info(all.toString());
         return all;
     }
@@ -48,7 +47,7 @@ public class CafeController {
 
 
     @GetMapping("/{id}")
-    public Cafe getCafe(@PathVariable String id) {
+    public Cafe getCafe(@PathVariable Long id) {
         return cafeRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
@@ -62,7 +61,7 @@ public class CafeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateCafe(@PathVariable String id, @RequestBody Cafe cafe) {
+    public ResponseEntity updateCafe(@PathVariable Long id, @RequestBody Cafe cafe) {
 
         Cafe currentCafe = cafeRepository.findById(id).get();
         log.info("find: "+cafe);
@@ -81,7 +80,7 @@ public class CafeController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteClient(@PathVariable String id) {
+    public ResponseEntity deleteClient(@PathVariable Long id) {
         cafeRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }

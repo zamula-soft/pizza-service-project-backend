@@ -1,0 +1,8 @@
+-- schema.sql
+
+CREATE TABLE COUNTRIES (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    name VARCHAR(128) NOT NULL,
+    img_flag VARCHAR(50),
+    PRIMARY KEY(id)
+);
