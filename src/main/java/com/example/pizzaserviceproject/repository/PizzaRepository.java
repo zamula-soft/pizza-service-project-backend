@@ -1,7 +1,9 @@
 package com.example.pizzaserviceproject.repository;
 
-import com.example.pizzaserviceproject.entity.Cafe;
 import com.example.pizzaserviceproject.entity.Pizza;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -11,10 +13,18 @@ import java.util.List;
 
 @Repository
 public interface PizzaRepository extends JpaRepository<Pizza, Long> {
-//    List<Cafe> getAllCafes();
     List<Pizza> findByNameContaining(String name);
     List<Pizza> findByDescriptionContaining(String description);
 
     @Query(value = "SELECT * FROM PIZZA WHERE PRICE > :priceFrom AND PRICE < :priceTo", nativeQuery = true)
     public List<Pizza> getPizzaWithPriceBetween(BigDecimal priceFrom, BigDecimal priceTo);
+
+    @Query(value = "SELECT * FROM PIZZA WHERE IS_SPICY = :isSpicy", nativeQuery = true)
+    public List<Pizza> getPizzaWithIsSpicy(Boolean isSpicy);
+
+    @Query("select p from Pizza p")
+    public List<Pizza> getAllSorted(Sort sort);
+
+    @Query("select p from Pizza p ORDER BY p.id")
+    Page<Pizza> getPage(Pageable pageable);
 }

@@ -1,11 +1,15 @@
 package com.example.pizzaserviceproject.controller;
 
 import com.example.pizzaserviceproject.entity.Cafe;
+import com.example.pizzaserviceproject.entity.Pizza;
 import com.example.pizzaserviceproject.repository.CafeRepository;
 import jakarta.websocket.server.PathParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +17,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -29,13 +34,40 @@ public class CafeController {
     }
 
     @GetMapping
-    public List<Cafe> getAll() {
+    public List<Cafe> getAllCafe() {
         List<Cafe> all = new ArrayList<>();
         cafeRepository.findAll().forEach(all::add);
         log.info(all.toString());
         return all;
     }
 
+
+    //    http://localhost:8080/cafe/sort?column=name&direction=ASC
+    @GetMapping("/sort")
+    public List<Cafe> sort(
+            @RequestParam(name = "column", defaultValue = "id") String column,
+            @RequestParam(name = "direction", defaultValue = "ASC") String direction
+    )
+    {
+        Sort.Direction dir = Sort.Direction.ASC;
+        if (direction.equalsIgnoreCase("DESC"))
+            dir = Sort.Direction.DESC;
+        return cafeRepository.getAllSorted(Sort.by(dir, column));
+    }
+
+    // http://localhost:8080/cafe/page?page=0&size=5
+    @GetMapping("/page")
+    public List<Cafe> cafePage(
+            @RequestParam(name = "page", defaultValue = "0") int pageNumber,
+            @RequestParam(name = "size", defaultValue = "5") int pageSize
+    )
+    {
+        Pageable pageable = Pageable.ofSize(pageSize).withPage(pageNumber);
+        return cafeRepository
+                .getPage(pageable)
+                .get()
+                .collect(Collectors.toList());
+    }
 
     @GetMapping("/search")
     public List<Cafe> searchCafe(@PathParam("name") String name) {

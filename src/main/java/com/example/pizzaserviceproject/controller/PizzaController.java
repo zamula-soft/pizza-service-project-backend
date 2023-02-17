@@ -1,12 +1,14 @@
 package com.example.pizzaserviceproject.controller;
 
-import com.example.pizzaserviceproject.entity.Cafe;
 import com.example.pizzaserviceproject.entity.Pizza;
 import com.example.pizzaserviceproject.repository.PizzaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/pizza")
@@ -32,12 +35,40 @@ public class PizzaController {
 
     // add pizza
     @GetMapping
-    public List<Pizza> getAll() {
+    public List<Pizza> getAllPizza() {
         List<Pizza> all = new ArrayList<>();
         pizzaRepository.findAll().forEach(all::add);
         log.info(all.toString());
         return all;
     }
+
+    //    http://localhost:8080/pizza/sort?column=name&direction=ASC
+    @GetMapping("/sort")
+    public List<Pizza> sort(
+            @RequestParam(name = "column", defaultValue = "id") String column,
+            @RequestParam(name = "direction", defaultValue = "ASC") String direction
+    )
+    {
+        Sort.Direction dir = Sort.Direction.ASC;
+        if (direction.equalsIgnoreCase("DESC"))
+            dir = Sort.Direction.DESC;
+        return pizzaRepository.getAllSorted(Sort.by(dir, column));
+    }
+
+    // http://localhost:8080/pizza/page?page=0&size=5
+    @GetMapping("/page")
+    public List<Pizza> pizzaPage(
+          @RequestParam(name = "page", defaultValue = "0") int pageNumber,
+          @RequestParam(name = "size", defaultValue = "5") int pageSize
+    )
+    {
+        Pageable pageable = Pageable.ofSize(pageSize).withPage(pageNumber);
+        return pizzaRepository
+                .getPage(pageable)
+                .get()
+                .collect(Collectors.toList());
+    }
+
 
     @GetMapping("/priceBetween")
     public List<Pizza> priceBetween (
@@ -45,6 +76,14 @@ public class PizzaController {
             @RequestParam (name = "to", defaultValue = "100.0") BigDecimal priceTo)
     {
         List<Pizza> pizzas = pizzaRepository.getPizzaWithPriceBetween(priceFrom, priceTo);
+        return pizzas;
+    }
+
+    @GetMapping("/getSpicy")
+    public List<Pizza> getSpicy (
+            @RequestParam (name = "spicy", defaultValue = "true") Boolean isSpicy)
+    {
+        List<Pizza> pizzas = pizzaRepository.getPizzaWithIsSpicy(isSpicy);
         return pizzas;
     }
 
