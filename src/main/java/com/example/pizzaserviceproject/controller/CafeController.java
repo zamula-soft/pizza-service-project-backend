@@ -3,6 +3,8 @@ package com.example.pizzaserviceproject.controller;
 import com.example.pizzaserviceproject.entity.Cafe;
 import com.example.pizzaserviceproject.entity.Pizza;
 import com.example.pizzaserviceproject.repository.CafeRepository;
+import com.example.pizzaserviceproject.repository.PizzaRepository;
+import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,13 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -27,6 +34,8 @@ public class CafeController {
     private static final Logger log = LoggerFactory.getLogger(CafeController.class);
 
     private CafeRepository cafeRepository;
+    @Autowired
+    private PizzaRepository pizzaRepository;
 
     @Autowired
     public CafeController(CafeRepository cafeRepository) {
@@ -84,13 +93,37 @@ public class CafeController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity createCafe(@RequestBody Cafe cafe) throws URISyntaxException {
+    public ResponseEntity createCafe(
+            @Valid
+            @RequestBody Cafe cafe
+    ) throws URISyntaxException {
         log.info("Added 1 cafe "+cafe.toString());
         Cafe savedCafe = cafeRepository.save(cafe);
         log.info("Added cafe "+cafe.toString());
 
         return ResponseEntity.created(new URI("/cafe/" + savedCafe.getId())).body(savedCafe);
     }
+
+//    //add pizza
+//    //POST c CAFE
+//    @PostMapping("/{cafeId}/pizza")
+//    public ResponseEntity createPizza(
+//            @PathVariable(value = "cafeId") Long cafeId,
+//            @RequestBody Pizza pizzaRequest
+//    ) throws URISyntaxException {
+//        Pizza pizza = cafeRepository.findById(cafeId).map(
+//                cafe -> {
+//                    pizzaRequest.setCafe(cafe);
+//                    return pizzaRepository.save(pizzaRequest);
+//                }
+//        ).orElseThrow(
+//                () -> new IllegalArgumentException("Cafe not found "+ cafeId)
+//        );
+//
+//        log.info("Added pizza " + pizza.toString());
+//
+//        return ResponseEntity.created(new URI("/pizza/" + pizza.getId())).body(pizza);
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity updateCafe(@PathVariable Long id, @RequestBody Cafe cafe) {
@@ -112,9 +145,34 @@ public class CafeController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteClient(@PathVariable Long id) {
-        cafeRepository.deleteById(id);
+    public ResponseEntity<HttpStatus> deleteCafeAndPizzas(
+            @PathVariable Long cafeId
+
+    ) {
+        if (!cafeRepository.existsById(cafeId))
+            throw new IllegalArgumentException("No cafe with id " + cafeId);
+
+        cafeRepository.deleteById(cafeId);
         return ResponseEntity.ok().build();
+
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(
+            MethodArgumentNotValidException exception
+    ){
+       Map<String, String> errors = new HashMap<>();
+
+       exception.getBindingResult().getAllErrors().forEach(
+               error ->
+                   errors.put(
+                           ((FieldError) error).getField(),
+                           error.getDefaultMessage()
+                   )
+       );
+
+       return errors;
     }
 
     

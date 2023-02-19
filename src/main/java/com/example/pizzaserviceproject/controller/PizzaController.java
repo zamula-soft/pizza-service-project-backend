@@ -1,6 +1,8 @@
 package com.example.pizzaserviceproject.controller;
 
+import com.example.pizzaserviceproject.entity.Cafe;
 import com.example.pizzaserviceproject.entity.Pizza;
+import com.example.pizzaserviceproject.repository.CafeRepository;
 import com.example.pizzaserviceproject.repository.PizzaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +29,8 @@ public class PizzaController {
     private static final Logger log = LoggerFactory.getLogger(PizzaController.class);
 
     private PizzaRepository pizzaRepository;
+    @Autowired
+    private CafeRepository cafeRepository;
 
     @Autowired
     public PizzaController(PizzaRepository pizzaRepository) {
@@ -33,13 +38,35 @@ public class PizzaController {
     }
 
 
-    // add pizza
-    @GetMapping
-    public List<Pizza> getAllPizza() {
-        List<Pizza> all = new ArrayList<>();
-        pizzaRepository.findAll().forEach(all::add);
-        log.info(all.toString());
-        return all;
+    // get all pizza
+//    @GetMapping("/")
+//    public List<Pizza> getAllPizza() {
+//        List<Pizza> all = new ArrayList<>();
+//        pizzaRepository.findAll().forEach(all::add);
+//        log.info(all.toString());
+//        return all;
+//    }
+
+    //    http://localhost:8080/pizza?cafe_id=cafeId
+    @GetMapping("")
+    public ResponseEntity<List<Pizza>> getAllPizzaByCafeId(
+            @RequestParam(value = "cafe_id", defaultValue = "0") Long cafeId
+    ) {
+        log.info("cafeId = " + cafeId);
+        if (cafeId == 0)
+            return new ResponseEntity<>(
+                    pizzaRepository.findAll(),
+                    HttpStatus.OK);
+
+        if (!cafeRepository.existsById(cafeId))
+            throw new IllegalArgumentException("Cafe not found " + cafeId);
+
+
+
+        return new ResponseEntity<>(
+                pizzaRepository.findByCageId(cafeId),
+                HttpStatus.OK);
+
     }
 
     //    http://localhost:8080/pizza/sort?column=name&direction=ASC
@@ -93,14 +120,40 @@ public class PizzaController {
     }
 
 
-    @PostMapping("/add")
-    public ResponseEntity createPizza(@RequestBody Pizza pizza) throws URISyntaxException {
-        log.info("Added 1 pizza "+pizza.toString());
-        Pizza savedPizza = pizzaRepository.save(pizza);
-        log.info("Added pizza "+pizza.toString());
+//    @PostMapping("/add")
+//    public ResponseEntity createPizza(@RequestBody Pizza pizza) throws URISyntaxException {
+//        log.info("Added 1 pizza "+pizza.toString());
+//        Pizza savedPizza = pizzaRepository.save(pizza);
+//        log.info("Added pizza "+pizza.toString());
+//
+//        return ResponseEntity.created(new URI("/pizza/" + savedPizza.getId())).body(savedPizza);
+//    }
 
-        return ResponseEntity.created(new URI("/pizza/" + savedPizza.getId())).body(savedPizza);
+
+    //add pizza
+    //http:localhost:8080/pizza?cafe_id=cafeId
+    @PostMapping
+    public ResponseEntity createPizza(
+            @RequestParam(value = "cafeId", defaultValue = "1") Long cafeId,
+            @RequestBody Pizza pizzaRequest
+    ) throws URISyntaxException {
+        Pizza pizza = cafeRepository.findById(cafeId).map(
+                cafe -> {
+                    pizzaRequest.setCafe(cafe);
+                    return pizzaRepository.save(pizzaRequest);
+                }
+        ).orElseThrow(
+                () -> new IllegalArgumentException("Cafe not found "+ cafeId)
+        );
+
+        log.info("Added pizza " + pizza.toString());
+
+        return ResponseEntity.created(new URI("/pizza/" + pizza.getId())).body(pizza);
     }
+
+
+
+
 
 
     @PutMapping("/{id}")

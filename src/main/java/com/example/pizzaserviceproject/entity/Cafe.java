@@ -1,6 +1,7 @@
 package com.example.pizzaserviceproject.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ public class Cafe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer rating;
-    @NotBlank
+    @NotBlank(message = "Title is manadatory")
     @Column(name = "TITLE", length = 100, nullable = false, unique = false)
     private String name;
     @Column(length = 100, unique = false)
@@ -26,6 +27,8 @@ public class Cafe {
     private String country;
     private String address;
     @Column(length = 50, unique = false)
+    @NotBlank(message = "Email is mandatory")
+    @Email(message = "Email should be email")
     private String email;
     @Column(length = 50, unique = false)
     private String site;
@@ -35,14 +38,12 @@ public class Cafe {
     private String phone;
     @Column(columnDefinition = "Boolean default 'false'")
     private Boolean delivery;
-    @Column(length = 50, unique = false)
-    private String style;
     private String description;
 
     private Time open_at;
     private Time close_at;
 
-    public Cafe(Integer rating, String name, String city, String country, String address, String email, String site, String facebook, String phone, Boolean delivery, String style, String description, Time open_at, Time close_at) {
+    public Cafe(Integer rating, String name, String city, String country, String address, String email, String site, String facebook, String phone, Boolean delivery, String description, Time open_at, Time close_at) {
         this.rating = rating;
         this.name = name;
         this.city = city;
@@ -53,7 +54,6 @@ public class Cafe {
         this.facebook = facebook;
         this.phone = phone;
         this.delivery = delivery;
-        this.style = style;
         this.description = description;
         this.open_at = open_at;
         this.close_at = close_at;

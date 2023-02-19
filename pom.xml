@@ -58,7 +58,7 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>5.2.4.Final</version>
 		</dependency>
-
+<!--		Test-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -68,6 +68,8 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
+
+
 	</dependencies>
 
 	<build>
@@ -76,10 +78,10 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-<!--					<excludes>-->
-<!--						<groupId>org.projectlombok</groupId>-->
-<!--						<artifactId>lombok</artifactId>-->
-<!--					</excludes>-->
+					<excludes>
+						<groupId>org.projectlombok</groupId>
+						<artifactId>lombok</artifactId>
+					</excludes>
 				</configuration>
 			</plugin>
 		</plugins>

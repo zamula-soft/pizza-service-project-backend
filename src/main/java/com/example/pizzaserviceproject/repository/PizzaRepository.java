@@ -1,6 +1,7 @@
 package com.example.pizzaserviceproject.repository;
 
 import com.example.pizzaserviceproject.entity.Pizza;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -13,6 +14,12 @@ import java.util.List;
 
 @Repository
 public interface PizzaRepository extends JpaRepository<Pizza, Long> {
+    @Transactional
+    void deleteByCafeId(long cafeId);
+
+    @Query(value = "SELECT * FROM PIZZA WHERE CAFE_ID = :cafeId", nativeQuery = true)
+    public List<Pizza> findByCageId(Long cafeId);
+
     List<Pizza> findByNameContaining(String name);
     List<Pizza> findByDescriptionContaining(String description);
 
