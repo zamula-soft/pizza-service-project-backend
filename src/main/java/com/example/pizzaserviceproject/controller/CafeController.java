@@ -3,6 +3,7 @@ package com.example.pizzaserviceproject.controller;
 import com.example.pizzaserviceproject.entity.Cafe;
 import com.example.pizzaserviceproject.repository.CafeRepository;
 import com.example.pizzaserviceproject.repository.PizzaRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import org.slf4j.Logger;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/cafe")
 @CrossOrigin
+@Tag(name = "Cafe controller", description = "Manage CRUD REST API endpoints for cafe")
 public class CafeController {
     private static final Logger log = LoggerFactory.getLogger(CafeController.class);
 
@@ -126,6 +128,10 @@ public class CafeController {
         currentCafe.setSite(cafe.getSite());
         currentCafe.setFacebook(cafe.getFacebook());
         currentCafe.setDescription(cafe.getDescription());
+        currentCafe.setHasDelivery(cafe.getHasDelivery());
+        currentCafe.setOpen_at(cafe.getOpen_at());
+        currentCafe.setClose_at(cafe.getClose_at());
+
         cafeRepository.save(currentCafe);
 
         return ResponseEntity.ok(currentCafe);

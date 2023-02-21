@@ -11,16 +11,16 @@ INSERT INTO CAFE (ID, RATING, TITLE, CITY, COUNTRY, SITE, FACEBOOK, EMAIL, PHONE
 
 
 -- PIZZA
-INSERT INTO PIZZA(CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE) VALUES (1, 'Margaritha', 'S', 'The most famous pizza...', '', 10.90);
-INSERT INTO PIZZA(CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE) VALUES (2, 'Margaritha', 'L', 'The most famous pizza...', '', 15.90);
-INSERT INTO PIZZA(CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE) VALUES (3, 'Margaritha', 'XL', 'The most famous pizza...', '', 19.90);
-INSERT INTO PIZZA(CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE) VALUES (1, 'Napoletano', 'S', 'The selection of the ingredients is done with extreme care with a passionate love for the south and its bounty.', '', 12.90);
-INSERT INTO PIZZA(CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE, IS_SPICY) VALUES (2, 'Bacon Double Cheese', 'M', 'Bacon, ground beef, tomatoes, extra mozzarella cheese. 243kcal, 1020kJ / large slice / classic crust. from 739 kcal • from 1 serving', 'Bacon', 12.5, true);
-INSERT INTO PIZZA(CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE) VALUES (4, 'Vegi Supreme', 'B', 'Onions, green and red peppers, sweetcorn, mushrooms, tomatoes. 202kcal, 848kJ / large slice / classic crust. from 615 kcal • from 1 serving', 'Mushrooms', 11.0);
-INSERT INTO PIZZA(CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE) VALUES (4, 'Peperoni', 'L', 'Extra pepperoni and extra mozzarella cheese on a Domino-s tomato sauce base. 264kcal, 1110kJ / large slice / classic crust. from 788 kcal • from 1 serving', 'Peperoni', 15.90);
-INSERT INTO PIZZA(CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE, IS_SPICY) VALUES (5, 'American Hot', 'S', 'Onions, pepperoni, green jalapeño peppers. 233kcal, 979kJ / large slice / classic crust. from 700 kcal • from 1 serving', 'Onion', 15.0, true);
-INSERT INTO PIZZA(CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE) VALUES (5, 'Four cheese', 'XL', 'Four sorts of cheese...', 'Cheese', 14.90);
-INSERT INTO PIZZA(CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE) VALUES (6, 'Meat', 'S', 'Meat pizza... eat pizza...', 'Meat',  22.90);
-INSERT INTO PIZZA(CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE) VALUES (7, 'Texas BBQ', 'S', 'Tangy bbq sauce topped with smoky bacon, chicken breast strips, onions, green and red peppers. 231kcal, 970kJ / large slice / classic crust. from 727 kcal • from 1 serving', 'Chicken', 15.90);
-INSERT INTO PIZZA(CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE) VALUES (7, 'Burger Pizza', 'S', 'Pizza and burger at the same time - it is possible...', '', 16.99);
+INSERT INTO PIZZA(ID, CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE) VALUES (1, 1, 'Margaritha', 'S', 'The most famous pizza...', '', 10.90);
+INSERT INTO PIZZA(ID, CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE) VALUES (2, 2, 'Margaritha', 'L', 'The most famous pizza...', '', 15.90);
+INSERT INTO PIZZA(ID, CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE) VALUES (3, 3, 'Margaritha', 'XL', 'The most famous pizza...', '', 19.90);
+INSERT INTO PIZZA(ID, CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE) VALUES (4, 1, 'Napoletano', 'S', 'The selection of the ingredients is done with extreme care with a passionate love for the south and its bounty.', '', 12.90);
+INSERT INTO PIZZA(ID, CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE, IS_SPICY) VALUES (5, 2, 'Bacon Double Cheese', 'M', 'Bacon, ground beef, tomatoes, extra mozzarella cheese. 243kcal, 1020kJ / large slice / classic crust. from 739 kcal • from 1 serving', 'Bacon', 12.5, true);
+INSERT INTO PIZZA(ID, CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE) VALUES (6, 4, 'Vegi Supreme', 'B', 'Onions, green and red peppers, sweetcorn, mushrooms, tomatoes. 202kcal, 848kJ / large slice / classic crust. from 615 kcal • from 1 serving', 'Mushrooms', 11.0);
+INSERT INTO PIZZA(ID, CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE) VALUES (7, 4, 'Peperoni', 'L', 'Extra pepperoni and extra mozzarella cheese on a Domino-s tomato sauce base. 264kcal, 1110kJ / large slice / classic crust. from 788 kcal • from 1 serving', 'Peperoni', 15.90);
+INSERT INTO PIZZA(ID, CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE, IS_SPICY) VALUES (8, 5, 'American Hot', 'S', 'Onions, pepperoni, green jalapeño peppers. 233kcal, 979kJ / large slice / classic crust. from 700 kcal • from 1 serving', 'Onion', 15.0, true);
+INSERT INTO PIZZA(ID, CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE) VALUES (9, 5, 'Four cheese', 'XL', 'Four sorts of cheese...', 'Cheese', 14.90);
+INSERT INTO PIZZA(ID, CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE) VALUES (10, 6, 'Extra Meat', 'S', 'Meat pizza... meet pizza... eat pizza...', 'Meat, Bacon',  22.90);
+INSERT INTO PIZZA(ID, CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE) VALUES (11, 7, 'Texas BBQ', 'S', 'Tangy bbq sauce topped with smoky bacon, chicken breast strips, onions, green and red peppers. 231kcal, 970kJ / large slice / classic crust. from 727 kcal • from 1 serving', 'Chicken', 15.90);
+INSERT INTO PIZZA(ID, CAFE_ID, NAME, SIZE, DESCRIPTION, KEY_INGREDIENTS, PRICE) VALUES (12, 7, 'Burger Pizza', 'S', 'Pizza and burger at the same time - it is possible...', 'Burger, onion', 16.99);
 

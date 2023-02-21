@@ -3,6 +3,7 @@ package com.example.pizzaserviceproject.controller;
 import com.example.pizzaserviceproject.entity.Pizza;
 import com.example.pizzaserviceproject.repository.CafeRepository;
 import com.example.pizzaserviceproject.repository.PizzaRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.websocket.server.PathParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/pizza")
 @CrossOrigin
+@Tag(name = "Pizza controller", description = "Manage CRUD REST API endpoints for pizza")
 public class PizzaController {
     private static final Logger log = LoggerFactory.getLogger(PizzaController.class);
 

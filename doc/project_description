@@ -1,0 +1,52 @@
+#Java Pizza Project
+
+1. Main functionality of the project
+This project is a backend solution for pizza-cafe management.
+It would include the following main objects:
+1. Users - there must be two types of users in app: admin, ordinary user (user)
+Admin user has got all permissions in app: the main functionality would include the ability to create, read, update,
+and delete (CRUD) records for both pizzas and cafes.
+The functionality would be secured by requiring a username of "admin" to access these features.
+
+User has gor only ability to READ cafe and pizza
+
+2. Cafe -
+Cafe CRUD: Users with the "admin" username would be able to create new cafe records by providing
+information such as the cafe's name, location, and phone. They would also be able to view, update,
+and delete existing cafe records.
+
+3. Pizza -
+Pizza CRUD: Users with the "admin" username would be able to create new pizza records by providing
+information such as the pizza's name, size, key_ingredients, cafe_id.
+They would also be able to view, update, and delete existing pizza records.
+
+2. Requests
+POST, DELETE and PUT requests: Users with the "admin" username would be able to create new resources
+by sending a POST request, delete existing resources by sending a DELETE request, and update existing resources
+by sending a PUT request. GET is working for all.
+
+3. DB description
+Cafe to Pizza has bidirectional @OneToMany relationship. This means that one cafe can have multiple pizzas,
+but each pizza can only belong to one cafe.
+Add programmatically some pizzas and cafes. For this create class InitDataBase.java and add some data.
+
+4. REST API endpoints
+The application would also have the ability to retrieve all pizzas, retrieve a specific pizza, retrieve all cafes,
+retrieve a specific cafe and so on. For more information, see REST API description.
+
+5. Security
+The application would be secured by requiring a username of "admin" to access the pizza and cafe CRUD functionality,
+as well as the POST, DELETE and PUT requests.
+This could be implemented using Spring Security, which would check the user's credentials and restrict access
+to certain parts of the application based on their role.
+
+------------------------------------------------------------------------------------------------------------------------
+Additional objects in the project
+4*. Order -
+5*. Ingredients -
+6*. Client -
+* - objects are out of the current app stage
+
+
+
+

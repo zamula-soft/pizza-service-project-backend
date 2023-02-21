@@ -36,13 +36,14 @@ public class Cafe {
     @Column(length = 50)
     private String phone;
     @Column(columnDefinition = "Boolean default 'false'")
-    private Boolean delivery;
+    private Boolean hasDelivery;
     private String description;
 
     private Time open_at;
     private Time close_at;
 
-    public Cafe(Integer rating, String name, String city, String country, String address, String email, String site, String facebook, String phone, Boolean delivery, String description, Time open_at, Time close_at) {
+    public Cafe(Integer rating, String name, String city, String country, String address, String email, String site,
+                String facebook, String phone, Boolean hasDelivery, String description, Time open_at, Time close_at) {
         this.rating = rating;
         this.name = name;
         this.city = city;
@@ -52,7 +53,7 @@ public class Cafe {
         this.site = site;
         this.facebook = facebook;
         this.phone = phone;
-        this.delivery = delivery;
+        this.hasDelivery = hasDelivery;
         this.description = description;
         this.open_at = open_at;
         this.close_at = close_at;
