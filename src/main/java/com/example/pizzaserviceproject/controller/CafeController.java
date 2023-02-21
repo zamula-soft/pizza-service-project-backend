@@ -1,7 +1,6 @@
 package com.example.pizzaserviceproject.controller;
 
 import com.example.pizzaserviceproject.entity.Cafe;
-import com.example.pizzaserviceproject.entity.Pizza;
 import com.example.pizzaserviceproject.repository.CafeRepository;
 import com.example.pizzaserviceproject.repository.PizzaRepository;
 import jakarta.validation.Valid;
@@ -9,7 +8,6 @@ import jakarta.websocket.server.PathParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -33,6 +31,7 @@ import java.util.stream.Collectors;
 public class CafeController {
     private static final Logger log = LoggerFactory.getLogger(CafeController.class);
 
+    @Autowired
     private CafeRepository cafeRepository;
     @Autowired
     private PizzaRepository pizzaRepository;
@@ -79,15 +78,24 @@ public class CafeController {
     }
 
     @GetMapping("/search")
-    public List<Cafe> searchCafe(@PathParam("name") String name) {
-        List<Cafe> cafeByName = cafeRepository.findByNameContaining(name);
-        log.info(cafeByName.toString());
-        return cafeByName;
+    public List<Cafe> searchCafeByName(
+            @PathParam("name") String name,
+            @PathParam("address") String address
+    ) {
+        List<Cafe> cafeSearchResult = new ArrayList<>();
+        if (!name.equals("")) {
+             cafeSearchResult = cafeRepository.findByNameContaining(name);
+            log.info("Found by name" + cafeSearchResult.toString());
+        }
+        else if (!address.equals("")) {
+            cafeSearchResult = cafeRepository.findByNameContaining(name);
+            log.info("Found by address" + cafeSearchResult.toString());
+        }
 
+        return cafeSearchResult;
     }
 
-
-    @GetMapping("/{id}")
+    @GetMapping("/full/{id}")
     public Cafe getCafe(@PathVariable Long id) {
         return cafeRepository.findById(id).orElseThrow(RuntimeException::new);
     }
@@ -97,54 +105,35 @@ public class CafeController {
             @Valid
             @RequestBody Cafe cafe
     ) throws URISyntaxException {
-        log.info("Added 1 cafe "+cafe.toString());
+        log.info("Added 1 cafe "+cafe);
         Cafe savedCafe = cafeRepository.save(cafe);
-        log.info("Added cafe "+cafe.toString());
+        log.info("Added cafe "+cafe);
 
         return ResponseEntity.created(new URI("/cafe/" + savedCafe.getId())).body(savedCafe);
     }
 
-//    //add pizza
-//    //POST c CAFE
-//    @PostMapping("/{cafeId}/pizza")
-//    public ResponseEntity createPizza(
-//            @PathVariable(value = "cafeId") Long cafeId,
-//            @RequestBody Pizza pizzaRequest
-//    ) throws URISyntaxException {
-//        Pizza pizza = cafeRepository.findById(cafeId).map(
-//                cafe -> {
-//                    pizzaRequest.setCafe(cafe);
-//                    return pizzaRepository.save(pizzaRequest);
-//                }
-//        ).orElseThrow(
-//                () -> new IllegalArgumentException("Cafe not found "+ cafeId)
-//        );
-//
-//        log.info("Added pizza " + pizza.toString());
-//
-//        return ResponseEntity.created(new URI("/pizza/" + pizza.getId())).body(pizza);
-//    }
+    @PutMapping("/{cafeId}")
+    public ResponseEntity updateCafe(@PathVariable Long cafeId, @RequestBody Cafe cafe) {
 
-    @PutMapping("/{id}")
-    public ResponseEntity updateCafe(@PathVariable Long id, @RequestBody Cafe cafe) {
-
-        Cafe currentCafe = cafeRepository.findById(id).get();
+        Cafe currentCafe = cafeRepository.findById(cafeId).get();
         log.info("find: "+cafe);
         currentCafe.setRating(cafe.getRating());
         currentCafe.setName(cafe.getName());
         currentCafe.setCity(cafe.getCity());
         currentCafe.setCountry(cafe.getCountry());
+        currentCafe.setAddress(cafe.getAddress());
         currentCafe.setEmail(cafe.getEmail());
         currentCafe.setSite(cafe.getSite());
         currentCafe.setFacebook(cafe.getFacebook());
         currentCafe.setDescription(cafe.getDescription());
         cafeRepository.save(currentCafe);
+
         return ResponseEntity.ok(currentCafe);
 
     }
 
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{cafeId}")
     public ResponseEntity<HttpStatus> deleteCafeAndPizzas(
             @PathVariable Long cafeId
 
@@ -175,7 +164,28 @@ public class CafeController {
        return errors;
     }
 
-    
+
+
+    //    //add pizza
+//    //POST c CAFE
+//    @PostMapping("/{cafeId}/pizza")
+//    public ResponseEntity createPizza(
+//            @PathVariable(value = "cafeId") Long cafeId,
+//            @RequestBody Pizza pizzaRequest
+//    ) throws URISyntaxException {
+//        Pizza pizza = cafeRepository.findById(cafeId).map(
+//                cafe -> {
+//                    pizzaRequest.setCafe(cafe);
+//                    return pizzaRepository.save(pizzaRequest);
+//                }
+//        ).orElseThrow(
+//                () -> new IllegalArgumentException("Cafe not found "+ cafeId)
+//        );
+//
+//        log.info("Added pizza " + pizza.toString());
+//
+//        return ResponseEntity.created(new URI("/pizza/" + pizza.getId())).body(pizza);
+//    }
 
 }
 

@@ -1,14 +1,13 @@
 package com.example.pizzaserviceproject.controller;
 
-import com.example.pizzaserviceproject.entity.Cafe;
 import com.example.pizzaserviceproject.entity.Pizza;
 import com.example.pizzaserviceproject.repository.CafeRepository;
 import com.example.pizzaserviceproject.repository.PizzaRepository;
+import jakarta.websocket.server.PathParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -28,6 +27,7 @@ import java.util.stream.Collectors;
 public class PizzaController {
     private static final Logger log = LoggerFactory.getLogger(PizzaController.class);
 
+    @Autowired
     private PizzaRepository pizzaRepository;
     @Autowired
     private CafeRepository cafeRepository;
@@ -64,7 +64,7 @@ public class PizzaController {
 
 
         return new ResponseEntity<>(
-                pizzaRepository.findByCageId(cafeId),
+                pizzaRepository.findByCafeId(cafeId),
                 HttpStatus.OK);
 
     }
@@ -157,16 +157,24 @@ public class PizzaController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity updatePizza(@PathVariable Long id, @RequestBody Pizza pizza) {
+    public ResponseEntity updatePizzaById(
+            @PathVariable Long id,
+            @RequestBody Pizza pizza
+    ) {
 
-        Pizza current = pizzaRepository.findById(id).get();
-        log.info("find: "+pizza);
+        Pizza current = pizzaRepository.findById(id).orElseThrow(
+                ()-> new IllegalArgumentException("Pizza with ID " + id + " not found!"));
+
         current.setName(pizza.getName());
+        current.setCafe(pizza.getCafe());
+        current.setPrice(pizza.getPrice());
         current.setSize(pizza.getSize());
         current.setDescription(pizza.getDescription());
+        current.setKey_ingredients(pizza.getKey_ingredients());
         current.setIsSpicy(pizza.getIsSpicy());
         pizzaRepository.save(current);
         return ResponseEntity.ok(current);
+//        return new ResponseEntity<>(pizzaRepository.save(current). HttpStatus.OK);
 
     }
 
@@ -175,6 +183,19 @@ public class PizzaController {
     public ResponseEntity deletePizza(@PathVariable Long id) {
         pizzaRepository.deleteById(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/search")
+    public List<Pizza> searchPizzaByName(
+            @PathParam("name") String name
+    ) {
+        List<Pizza> pizzaSearchResult = new ArrayList<>();
+        if (name != "") {
+            pizzaSearchResult = pizzaRepository.findByNameContaining(name);
+            log.info("Found pizza by name" + pizzaSearchResult.toString());
+        }
+
+        return pizzaSearchResult;
     }
 
 

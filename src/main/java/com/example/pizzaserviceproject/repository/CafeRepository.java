@@ -1,7 +1,6 @@
 package com.example.pizzaserviceproject.repository;
 
 import com.example.pizzaserviceproject.entity.Cafe;
-import com.example.pizzaserviceproject.entity.Pizza;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,6 +14,7 @@ import java.util.List;
 public interface CafeRepository extends JpaRepository<Cafe, Long> {
 //    List<Cafe> getAllCafes();
     List<Cafe> findByNameContaining(String name);
+    List<Cafe> findByAddressContaining(String name);
 
     @Query("select c from Cafe c")
     public List<Cafe> getAllSorted(Sort sort);

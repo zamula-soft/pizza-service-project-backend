@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Time;
-import java.util.UUID;
 
 @Entity
 @Table(name = "cafe")
@@ -15,26 +14,26 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Cafe {
     @Id //primary key
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Integer rating;
-    @NotBlank(message = "Title is manadatory")
-    @Column(name = "TITLE", length = 100, nullable = false, unique = false)
+    @NotBlank(message = "Title is mandatory")
+    @Column(name = "TITLE", length = 100, nullable = false)
     private String name;
-    @Column(length = 100, unique = false)
+    @Column(length = 100)
     private String city;
-    @Column(length = 100, unique = false)
+    @Column(length = 100)
     private String country;
     private String address;
-    @Column(length = 50, unique = false)
+    @Column(length = 50)
     @NotBlank(message = "Email is mandatory")
     @Email(message = "Email should be email")
     private String email;
-    @Column(length = 50, unique = false)
+    @Column(length = 50)
     private String site;
-    @Column(length = 100, unique = false)
+    @Column(length = 100)
     private String facebook;
-    @Column(length = 50, unique = false)
+    @Column(length = 50)
     private String phone;
     @Column(columnDefinition = "Boolean default 'false'")
     private Boolean delivery;
