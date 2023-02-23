@@ -1,6 +1,7 @@
 package com.example.pizzaserviceproject.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,11 +9,13 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 
 @Entity
 @Table(name="pizza")
 @Data
 @NoArgsConstructor
+@Transactional
 public class Pizza {
     @Id //primary key
     @GeneratedValue(strategy = GenerationType.AUTO)

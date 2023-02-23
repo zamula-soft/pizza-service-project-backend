@@ -1,5 +1,6 @@
 package com.example.pizzaserviceproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -7,6 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Time;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "cafe")
@@ -41,6 +45,16 @@ public class Cafe {
 
     private Time open_at;
     private Time close_at;
+
+//    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "cafe")
+//    @JsonIgnore
+//    @JoinColumn(name = "id", nullable = false)
+//    Set<Pizza> pizzaSet = new HashSet<>();
+
+//    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "cafe")
+//    @JsonIgnore
+////    @JoinColumn(name = "id", nullable = false)
+//    private Set<Pizza> pizzaList = new HashSet<>();
 
     public Cafe(Integer rating, String name, String city, String country, String address, String email, String site,
                 String facebook, String phone, Boolean hasDelivery, String description, Time open_at, Time close_at) {

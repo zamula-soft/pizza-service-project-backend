@@ -14,7 +14,9 @@ import java.util.List;
 public interface CafeRepository extends JpaRepository<Cafe, Long> {
 //    List<Cafe> getAllCafes();
     List<Cafe> findByNameContaining(String name);
-    List<Cafe> findByAddressContaining(String name);
+
+    @Query(value = "SELECT * FROM CAFE WHERE ADDRESS CONTAINS :address", nativeQuery = true)
+    public List<Cafe> findByAddressContaining(String address);
 
     @Query("select c from Cafe c")
     public List<Cafe> getAllSorted(Sort sort);
