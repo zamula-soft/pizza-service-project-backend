@@ -48,6 +48,4 @@ public class Pizza {
         this.price = price;
         this.isSpicy = isSpicy;
     }
-
-
 }

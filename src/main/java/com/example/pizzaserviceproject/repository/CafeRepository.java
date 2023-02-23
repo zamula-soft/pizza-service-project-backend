@@ -24,5 +24,4 @@ public interface CafeRepository extends JpaRepository<Cafe, Long> {
     @Query("select c from Cafe c ORDER BY c.id")
     Page<Cafe> getPage(Pageable pageable);
 
-
 }

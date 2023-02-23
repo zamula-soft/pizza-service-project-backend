@@ -18,7 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class Cafe {
     @Id //primary key
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer rating;
     @NotBlank(message = "Title is mandatory")
@@ -46,15 +46,6 @@ public class Cafe {
     private Time open_at;
     private Time close_at;
 
-//    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "cafe")
-//    @JsonIgnore
-//    @JoinColumn(name = "id", nullable = false)
-//    Set<Pizza> pizzaSet = new HashSet<>();
-
-//    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "cafe")
-//    @JsonIgnore
-////    @JoinColumn(name = "id", nullable = false)
-//    private Set<Pizza> pizzaList = new HashSet<>();
 
     public Cafe(Integer rating, String name, String city, String country, String address, String email, String site,
                 String facebook, String phone, Boolean hasDelivery, String description, Time open_at, Time close_at) {
@@ -72,8 +63,5 @@ public class Cafe {
         this.open_at = open_at;
         this.close_at = close_at;
     }
-
-    //    https://www.50toppizza.it/
-
 
 }

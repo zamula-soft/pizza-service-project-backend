@@ -138,7 +138,6 @@ public class CafeController {
 
     }
 
-
     @DeleteMapping("/{cafeId}")
     public ResponseEntity<HttpStatus> deleteCafeAndPizzas(
             @PathVariable Long cafeId
@@ -169,29 +168,6 @@ public class CafeController {
 
        return errors;
     }
-
-
-
-    //    //add pizza
-//    //POST c CAFE
-//    @PostMapping("/{cafeId}/pizza")
-//    public ResponseEntity createPizza(
-//            @PathVariable(value = "cafeId") Long cafeId,
-//            @RequestBody Pizza pizzaRequest
-//    ) throws URISyntaxException {
-//        Pizza pizza = cafeRepository.findById(cafeId).map(
-//                cafe -> {
-//                    pizzaRequest.setCafe(cafe);
-//                    return pizzaRepository.save(pizzaRequest);
-//                }
-//        ).orElseThrow(
-//                () -> new IllegalArgumentException("Cafe not found "+ cafeId)
-//        );
-//
-//        log.info("Added pizza " + pizza.toString());
-//
-//        return ResponseEntity.created(new URI("/pizza/" + pizza.getId())).body(pizza);
-//    }
 
 }
 
